@@ -756,6 +756,104 @@
       color:var(--cyan);
     }
 
+    .mobile-menu-btn{
+      display:none;
+      width:48px;
+      height:48px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.05);
+      backdrop-filter:blur(16px);
+      cursor:pointer;
+      position:relative;
+      z-index:1000;
+      align-items:center;
+      justify-content:center;
+      padding:0;
+      transition:transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+      display:flex;
+    }
+    .mobile-menu-btn span{
+      display:block;
+      width:22px;
+      height:2px;
+      border-radius:999px;
+      background:var(--text);
+      transition:transform 0.3s ease, opacity 0.3s ease;
+    }
+    .mobile-menu-btn span + span{ margin-top:5px; }
+
+    .hero h2{ font-size:2.2rem; }
+
+    @media(max-width:900px){
+      nav{ position:relative; }
+      .nav-links{ display:none; }
+      nav.mobile-open .nav-links{ display:flex; flex-direction:column; gap:16px; position:absolute; top:80px; right:20px; left:20px; background:rgba(3,7,18,0.98); border:1px solid rgba(255,255,255,0.08); border-radius:24px; padding:24px; box-shadow:0 30px 80px rgba(0,0,0,0.35); }
+      .nav-links a{ font-size:16px; padding:10px 0; }
+      .mobile-menu-btn{ display:flex; }
+      .theme-toggle{ display:none; }
+      .hero{ gap:26px; }
+      .hero h1{ font-size:4rem; }
+      .countdown-grid{ grid-template-columns:repeat(2,1fr); }
+    }
+
+    @media(max-width:700px){
+      section{ padding:50px 18px; }
+      .hero h1{ font-size:3rem; letter-spacing:0.14em; }
+      .hero h2{ font-size:1.75rem; }
+      .hero p{ font-size:0.98rem; }
+      .btn{ width:100%; padding:16px 20px; }
+      .countdown-card{ padding:30px; }
+      .countdown-grid{ grid-template-columns:1fr; }
+      .time-box{ padding:20px 10px; }
+      .time-box h2{ font-size:2.4rem; }
+      .cards{ gap:18px; }
+      .card{ padding:24px; }
+      .timeline-item{ padding:24px; }
+      .tab-content{ padding:24px; }
+      .tabs{ gap:10px; }
+      .tab-btn{ flex:1 1 45%; padding:12px 16px; }
+      .archive-grid{ gap:18px; }
+      .failed-card{ padding:18px; }
+      .archive-hero{ flex-direction:column; align-items:flex-start; }
+      .mobile-menu-btn{ top:0; }
+      .card,
+      .status-card,
+      .project-card,
+      .event-card,
+      .video-card,
+      .community-card,
+      .research-card,
+      .panel,
+      .countdown-card{
+        animation:none;
+      }
+    }
+
+    @media (hover: none) {
+      .card:hover,
+      .status-card:hover,
+      .project-card:hover,
+      .event-card:hover,
+      .video-card:hover,
+      .community-card:hover,
+      .research-card:hover,
+      .failed-card:hover{
+        transform:none;
+        border-color:var(--border);
+        box-shadow:0 0 20px rgba(0,0,0,0.12);
+      }
+    }
+
+    @media(max-width:640px){
+      .hero{ padding-bottom:0; }
+      .logo{ font-size:1.6rem; }
+      .theme-toggle{ display:none; }
+      .nav-links a{ color:var(--text); }
+      .btn{ font-size:0.95rem; }
+      footer{ padding:40px 16px; }
+    }
+
     .theme-toggle{
       padding:10px 18px;
       border-radius:999px;
@@ -1270,6 +1368,12 @@
       <a href="#legacy-reconstruction">Legacy</a>
       <a href="#contact">Contact</a>
     </div>
+
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Open navigation menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
 
     <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
   </nav>
@@ -1993,6 +2097,19 @@
   function toggleTheme(){
     document.body.classList.toggle('light');
   }
+
+  function toggleMobileMenu(){
+    const nav = document.querySelector('nav');
+    nav.classList.toggle('mobile-open');
+  }
+
+  document.addEventListener('click', (event) => {
+    const nav = document.querySelector('nav');
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    if(!nav.contains(event.target) && nav.classList.contains('mobile-open')){
+      nav.classList.remove('mobile-open');
+    }
+  });
 
   /* Background animation module: layered canvases, particles, neural lines, starfield, and trail */
   const BackgroundSystem = (function(){
